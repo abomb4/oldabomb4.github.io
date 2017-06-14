@@ -1,15 +1,15 @@
 # Site settings
-name: Less Or More
-email: luoyan35714@126.com
-author: Freud Kang
-url: http://www.hifreud.com
-resume_site: http://www.hifreud.com/Resume.io/
-github: https://github.com/luoyan35714/
-baseurl: "/LessOrMore"
-description: Actually, less is more!
-meta_description: 康志华;个人博客;学而不思则罔;思而不学则殆;生命不止;折腾不休
+meta_description: 杨睿龙;个人博客;生命不止;折腾不休
+name: 乱写
+description: Nothing here, right?
+email: yangrlx@gmail.com
+author: yrl
+url: http://localhost:4000
+resume_site: http://localhost/Resume.io/
+github: https://github.com/abomb4/
+baseurl: ""
 motto: It's our wits that make us men.
-banner: 学而不思则罔，思而不学则殆。
+banner: 与其感慨路难行，不如马上出发。
 
 #permalink: /:categories/:year/:month/:day/:title/
 permalink: /:year/:month/:day/:title/
@@ -17,21 +17,24 @@ paginate: 10
 
 exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 
-github_username: luoyan35714
+github_username: abomb4
 highlighter: Pygments
+
+# serve
+host: 0.0.0.0
 
 # Build settings
 markdown: kramdown
 
-baidu_analysis: 94be4b0f9fc5d94cc0d0415ea6761ae9
+baidu_analysis: 994cc0d0415ea6761ae9:w
 
 FB:
   comments :
-    provider : yungentie
+    provider : 000
     duoshuo:
-        short_name : luoyan35714
+        short_name : 000
     disqus :
-        short_name : freudkang
+        short_name : 000
     # facebook :
     #   appid : 123
     #   num_posts: 5

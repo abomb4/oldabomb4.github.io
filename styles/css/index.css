@@ -2763,12 +2763,12 @@ input[type="button"].btn-block {
   margin: 2px 0 0;
   list-style: none;
   font-size: 14px;
-  background-color: #ffffff;
+  background-color: rgba(36, 36, 36, 0.98);;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.50);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.50);
   background-clip: padding-box;
 }
 .dropdown-menu.pull-right {
@@ -2787,7 +2787,7 @@ input[type="button"].btn-block {
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;
-  color: #333333;
+  color: #fff;
   white-space: nowrap;
   text-shadow: none;
 }
@@ -5413,7 +5413,7 @@ button.close {
 body {
   position: relative;
   /* For scrollyspy */
-  padding-top: 50px;
+  padding-top: 60px;
   /* Account for fixed navbar */
 }
 /* Keep code small in tables on account of limited space */
@@ -6316,11 +6316,11 @@ hr {
 .docs-header,
 .docs-home {
   color: #b9c8e0;
-  background-color: #1d365d;
+  background-color: #184358;
 }
 /* Page headers */
 .docs-header {
-  padding: 30px 15px 50px;
+  padding: 5px 15px 30px;
   /* side padding builds on .container 15px, so 30px */
   font-size: 16px;
   text-align: center;
@@ -6511,7 +6511,7 @@ hr {
 }
 .docs-nav {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
-  background-color: #1d365d;
+  background-color: #111;
   border-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07);
 }
@@ -6520,17 +6520,18 @@ hr {
 }
 .docs-nav .container .navbar-brand {
   margin: 12px 0 0;
-  width: 100px;
+  width: 50px;
   padding: 0;
 }
 .docs-nav .container .navbar-brand img {
   display: block;
   max-width: 100%;
   height: auto;
+  max-height: 40px;
 }
 .docs-nav .navbar-nav > li > a,
 .docs-nav .navbar-nav > li > span {
-  color: #b9c8e0;
+  color: #eef;
 }
 .docs-nav .navbar-nav > li > a:hover,
 .docs-nav .navbar-nav > li > span:hover {
