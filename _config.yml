@@ -12,6 +12,7 @@ motto: It's our wits that make us men.
 banner: 与其感慨路难行，不如马上出发。
 
 #permalink: /:categories/:year/:month/:day/:title/
+gems: [jekyll-paginate]
 permalink: /:year/:month/:day/:title/
 paginate: 10
 

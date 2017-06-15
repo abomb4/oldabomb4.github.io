@@ -6467,12 +6467,16 @@ hr {
   border-right: 1px solid #1d365d;
 }
 .sidebar .nav .nav {
-  display: none;
+  /*display: none;*/
   margin-bottom: 8px;
 }
 .sidebar .nav .nav > li > a {
-  padding: 3px 30px;
+  padding: 3px 0px 3px 30px;
   font-size: 90%;
+}
+.sidebar .nav .nav .nav > li > a {
+  padding: 3px 0px 3px 40px;
+  font-size: 70%;
 }
 .sidebar .glyphicon {
   font-size: 12px;
