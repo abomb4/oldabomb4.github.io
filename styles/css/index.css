@@ -929,6 +929,10 @@ pre code {
   }
 }
 @media (min-width: 992px) {
+
+  .docs-content {
+    padding: 1px 60px 80px 60px !important;
+  }
   .container {
     width: 970px;
   }
@@ -1242,6 +1246,8 @@ th {
 .table {
   width: 100%;
   margin-bottom: 20px;
+  display: block;
+  overflow: auto;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -6415,7 +6421,7 @@ hr {
   overflow: hidden;
   background: #fff;
   background-color: #fff;
-  padding: 1px 60px 80px 60px;
+  padding: 1em 2em 3em 2em;
   margin: 0 -15px;
   border: none;
   border-radius: 0 0 4px 4px;
