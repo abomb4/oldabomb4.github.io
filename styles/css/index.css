@@ -3993,6 +3993,11 @@ textarea.input-group-sm > .input-group-btn > .btn {
   background-color: #f5f5f5;
   border-radius: 4px;
 }
+.breadcrumb:after {
+  display:table;
+  clear:both;
+  content:'';
+}
 .breadcrumb > li {
   display: inline-block;
 }
@@ -6529,7 +6534,7 @@ hr {
   border-color: #111f36;
 }
 .docs-nav .container .navbar-brand {
-  margin: 12px 0 0;
+  margin: 12px 12px 0;
   width: 50px;
   padding: 0;
 }
