@@ -378,19 +378,19 @@ h6 .small {
 }
 h1,
 .h1 {
-  font-size: 38px;
+  font-size: 2.2em;
 }
 h2,
 .h2 {
-  font-size: 31px;
+  font-size: 1.8em;
 }
 h3,
 .h3 {
-  font-size: 24px;
+  font-size: 1.5em;
 }
 h4,
 .h4 {
-  font-size: 18px;
+  font-size: 1.2em;
 }
 h5,
 .h5 {
@@ -5813,8 +5813,8 @@ body {
  * Generated via Pygments and Jekyll, these are snippets of HTML, CSS, and JS.
  */
 .highlight {
-  display: none;
-  /* hidden by default, until >480px */
+  /* display: none; */
+  /* hidden by default, until >480px (DO NOT HIDE by abomb4) */
   padding: 9px 14px;
   margin-bottom: 14px;
   background-color: #f7f7f9;
@@ -6106,7 +6106,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, 'Microsoft YaHei', sans-serif;
+  font-family: "Droid Sans", "Helvetica Neue", Helvetica, Arial, 'Simsun', sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333333;
@@ -6421,7 +6421,7 @@ hr {
   overflow: hidden;
   background: #fff;
   background-color: #fff;
-  padding: 1em 2em 3em 2em;
+  padding: 1em 1em 3em 1em;
   margin: 0 -15px;
   border: none;
   border-radius: 0 0 4px 4px;
