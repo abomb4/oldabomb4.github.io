@@ -538,7 +538,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-family: Inconsolata, Consolas, "Droid Sans Mono", monospace;
 }
 code {
   padding: 2px 4px;
