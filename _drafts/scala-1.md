@@ -59,3 +59,4 @@ val func2 = (x: Int, y: (Int) => Int) => y(x) + 1
 --------------
 **val** 是不可变值的意思，与Java的`final`关键字类似
 **var** 是可变变量
+
