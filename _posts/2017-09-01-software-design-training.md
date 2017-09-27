@@ -36,6 +36,7 @@ tag: design pattern 培训
 1. 理解成本
 
     修改代码需要理解老的代码，理解过程是一个很耗时的过程。
+
 1. 修改成本
 
     修改成本一般较小，除非代码过滥，太多重复，此时才需要修改大量代码。
@@ -133,10 +134,15 @@ public class Authenticator {
 1. 动态绑定
 
     提倡运行时的动态绑定方法来解决变化，而不是编译期决定。
+    比如蜡笔有3种粗细，12种颜色，则有36个蜡笔；而画笔只需3种画笔12中颜色蘸着用即可
 
 1. 创建与使用分离
 
     要么创建，要么使用，不要在同一处逻辑里两者兼得
+
+1. 最少知道原则
+
+    我们买东西总不会把自己的钱包给收银员让他去扣款
 
 
 # 软件设计模式
@@ -149,7 +155,141 @@ public class Authenticator {
 
 ## 创建型模式
 --------------
+这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用 new 运算符直接实例化对象。
+使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活。
+
+创建型模式包括：
+- 工厂模式（Factory Pattern）
+- 抽象工厂模式（Abstract Factory Pattern）
+- 单例模式（Singleton Pattern）
+- 建造者模式（Builder Pattern）
+- 原型模式（Prototype Pattern）
+
+例如Gson利用GsonBuilder的创建过程，就是一种典型的建造者模式，用于适应各式各样的场景。
+```java
+Gson gson = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() {
+
+    @Override
+    public boolean shouldSkipField(FieldAttributes f) {
+        if ("specialFlag".equals(f.getName())) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean shouldSkipClass(Class<?> clazz) {
+        return false;
+    }
+}).create();
+```
+
 ## 结构型模式
 --------------
+这些设计模式关注类和对象的组合关系。
+
+结构型模式包括：
+- 适配器模式（Adapter Pattern）
+- 桥接模式（Bridge Pattern）
+- 过滤器模式（Filter、Criteria Pattern）
+- 组合模式（Composite Pattern）
+- 装饰器模式（Decorator Pattern）
+- 外观模式（Facade Pattern）
+- 享元模式（Flyweight Pattern）
+- 代理模式（Proxy Pattern）
+
+
+
 ## 行为型模式
 --------------
+这些设计模式特别关注对象之间的通信。
+
+行为型模式包括：
+- 责任链模式（Chain of Responsibility Pattern）
+- 命令模式（Command Pattern）
+- 解释器模式（Interpreter Pattern）
+- 迭代器模式（Iterator Pattern）
+- 中介者模式（Mediator Pattern）
+- 备忘录模式（Memento Pattern）
+- 观察者模式（Observer Pattern）
+- 状态模式（State Pattern）
+- 空对象模式（Null Object Pattern）
+- 策略模式（Strategy Pattern）
+- 模板模式（Template Pattern）
+- 访问者模式（Visitor Pattern）
+
+# 知识应用
+--------------
+
+## 设计题目
+--------------
+利用设计原则与设计模式，设计如下系统。
+
+### 日志系统
+
+现在我们需要一套日志系统，需要几个阶段的不同设计：
+1. 打印到Console即可
+1. 要求可以输出到Console也可以输出到文件或Socket
+1. 要求输出中带有时间、线程编号等信息
+1. 要求不同的日志有不同的格式，XML、JSON、TXT、自定义格式
+1. 要求满足某种过滤条件才输出到指定输出位置与格式
+
+### 统一异常处理组件
+
+为了方便对各种异常的处理更灵活，防止好多cp代码，要求一个统一异常处理组件，需求：
+1. 实现统一的异常接口，可配置可扩展
+1. 实现默认的异常处理方法
+1. 可以配置多个处理方法，包括日志、短信、邮件等
+1. 可以决定是否继续抛出异常，新异常可能和之前的不是同类异常
+
+### 餐馆
+
+据说一般的餐馆都用了17种左右的设计模式来设计其业务流程…
+
+## 拒绝软件退化
+--------------
+作为程序员，首先要声明：*“我在修改代码时，我会更加小心，不会让其变得更糟”*。
+
+代码变烂的原因往往不是外部因素，而是程序员自身的问题：
+1. 根本不考虑自己所写的代码的后果
+1. 对设计模式与原则不熟悉
+1. 由于原代码本身的复杂性，不敢动
+
+修改的代码要**尽量不修改原来的代码**，**修改范围越小越好**，**要方便接下来的测试**。
+
+加新功能的方法大致有：
+1. 加新方法
+1. 加新类
+1. 外覆方法
+
+    比如把原来的函数重命名，加一个新函数使用与原函数有相同的签名
+
+1. 外覆类
+
+    集成一个类，使用super方法调用原方法
+
+## 一般的公共组件
+--------------
+据说以Oracle公司的建议，一般有如下类型的公共组件：
+- Caching Service           公共缓存
+- Configuration Service     配置服务
+- MessageQueue Service      消息队列
+- EventNotification Service 事件服务
+- Authorization Service & Authentication Service    授权与认证服务
+- Transaction Service       事务服务
+- Exception Service         异常处理服务
+- Cryptography Service      安全服务
+- Workflow Service          工作流系统
+- Time Service              定时任务调度系统
+- Logging and Instrumentation   日志与监控
+- State Management          状态管理
+- Validation                验证方法
+- Communication             通信机制
+
+
+# 推荐书籍
+--------------
+- 《设计模式:可复用面向对象软件的基础》
+- 《面向模式的软件体系结构》
+- 《修改代码的艺术》
+- 《程序员的自我修养》
