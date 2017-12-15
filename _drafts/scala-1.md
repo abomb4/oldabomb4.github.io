@@ -52,6 +52,8 @@ val func = (x: Int) => x + 1
 
 val func2 = (x: Int, y: (Int) => Int) => y(x) + 1
 
+((a:Int, b:Int) => a + b)(1, 2)
+
 // func2(1, func) == 3
 ```
 
