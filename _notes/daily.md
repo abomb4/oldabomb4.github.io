@@ -25,3 +25,10 @@ tag: personal
 - 听了小组内的 `Vue` 介绍，收获：
     - 箭头函数的 `this` 是调用方的 `this` ， `function` 函数的 `this` 是声明方的 `this`
     - 提到了 `Object.defineProperty` ，现在我还不明确其具体功能
+
+# 2019-02-14
+--------------
+- 本地部署了 `easy-mock` (https://github.com/easy-mock/easy-mock)
+    - 安装了 `MongoDB` `Redis` `NodeJS 8.15.0`
+- 弄了半天 `Vue` ，就是搞搞页面，稍微弄弄框架，没啥意义
+- 点豐立德
