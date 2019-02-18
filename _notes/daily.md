@@ -43,4 +43,4 @@ tag: personal
 - 点豐立德
 - 做好了两个页面
 - 了解了一下 `Android` `adb logcat` 调试神器
-- 整理了越 10% 的 `Redis` 代码结构用途
+- 整理了约 10% 的 `Redis` 代码结构用途
