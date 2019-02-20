@@ -46,26 +46,26 @@ tag: redis
 ├── db.c                所有 keyspace 相关的操作实现
 ├── debug.c             debug 相关
 ├── debugmacro.h
-├── defrag.c
+├── defrag.c            内存碎片整理？
 ├── dict.c
-├── dict.h
+├── dict.h              Hash Table 定义，每个在 Redis 中的数据都是一个 dictEntry
 ├── endianconv.c
-├── endianconv.h
-├── evict.c
-├── expire.c
-├── fmacros.h
-├── geo.c
-├── geo.h
+├── endianconv.h        大小端处理工具
+├── evict.c             内存过大处理（LRU 和其他策略），server.h
+├── expire.c            过期处理 server.h
+├── fmacros.h           一些关于文件的宏定义
+├── geo.c               地理坐标操作实现
+├── geo.h               地理坐标数据结构
 ├── geohash.c
-├── geohash.h
+├── geohash.h           四等分地理坐标库
 ├── geohash_helper.c
-├── geohash_helper.h
-├── help.h
-├── hyperloglog.c
+├── geohash_helper.h    四等分地理坐标
+├── help.h              帮扶文件，描述所有指令的用法和用途
+├── hyperloglog.c       HyperLogLog 算法实现（用于统计重复数据？），实现 server.h 的一些方法
 ├── intset.c
-├── intset.h
-├── latency.c
-├── latency.h
+├── intset.h            一种 value 值编码方式，用更少的空间和确定的数据结构来存储数字
+├── latency.c           后台监控功能
+├── latency.h           后台监控功能
 ├── lazyfree.c
 ├── listpack.c
 ├── listpack.h
