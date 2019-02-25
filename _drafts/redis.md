@@ -66,7 +66,7 @@ tag: redis
 ├── intset.h            一种 value 值编码方式，用更少的空间和确定的数据结构来存储数字
 ├── latency.c           后台监控功能
 ├── latency.h           后台监控功能
-├── lazyfree.c
+├── lazyfree.c          实现 server.h 中各种异步回收功能
 ├── listpack.c
 ├── listpack.h
 ├── listpack_malloc.h
