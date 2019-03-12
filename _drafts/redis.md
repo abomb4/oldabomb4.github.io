@@ -68,11 +68,11 @@ tag: redis
 ├── latency.h           后台监控功能
 ├── lazyfree.c          实现 server.h 中各种异步回收功能
 ├── listpack.c
-├── listpack.h
-├── listpack_malloc.h
-├── localtime.c
-├── lolwut5.c
-├── lolwut.c
+├── listpack.h          一种包含几个 String 列表的数据结构
+├── listpack_malloc.h   defines
+├── localtime.c         本地日期函数
+├── lolwut5.c           LOLWUT 指令的实现，定义在 server.h
+├── lolwut.c            LOLWUT 指令的实现，定义在 server.h
 ├── lzf_c.c
 ├── lzf_d.c
 ├── lzf.h
