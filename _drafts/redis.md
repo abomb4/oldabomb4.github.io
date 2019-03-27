@@ -71,17 +71,17 @@ tag: redis
 ├── listpack.h          一种包含几个 String 列表的数据结构
 ├── listpack_malloc.h   defines
 ├── localtime.c         本地日期函数
-├── lolwut5.c           LOLWUT 指令的实现，定义在 server.h
-├── lolwut.c            LOLWUT 指令的实现，定义在 server.h
-├── lzf_c.c
-├── lzf_d.c
-├── lzf.h
-├── lzfP.h
+├── lolwut5.c           LOLWUT 指令的实现，定义在 server.h，玩艺术的
+├── lolwut.c            LOLWUT 指令的实现，定义在 server.h，玩艺术的
+├── lzf_c.c             LZF 压缩算法实现
+├── lzf_d.c             LZF 解压算法实现
+├── lzf.h               LZF 算法头定义
+├── lzfP.h              LZF 算法预定义常量，影响算法实现
 ├── Makefile
 ├── Makefile.dep
-├── memtest.c
-├── mkreleasehdr.sh
-├── module.c
+├── memtest.c           内存检测实现，定义在 server.c 中
+├── mkreleasehdr.sh     生成 release.h 的脚本
+├── module.c            模块框架实现？
 ├── modules
 │   ├── gendoc.rb
 │   ├── helloblock.c
@@ -92,10 +92,10 @@ tag: redis
 │   ├── helloworld.c
 │   ├── Makefile
 │   └── testmodule.c
-├── multi.c
-├── networking.c
-├── notify.c
-├── object.c
+├── multi.c             MULTI/EXEC/WATCH 命令实现
+├── networking.c        所有网络与客户端相关的操作实现
+├── notify.c            This file implements keyspace events notification via Pub/Sub and described at https://redis.io/topics/notifications.
+├── object.c            Redis object implementation
 ├── pqsort.c
 ├── pqsort.h
 ├── pubsub.c
