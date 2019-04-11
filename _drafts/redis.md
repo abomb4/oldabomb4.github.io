@@ -15,6 +15,8 @@ tag: redis
 
 # 代码结构
 --------------
+以 `redis-5.0.3` 为例。
+
 来看下主要程序源代码的部分，就是src目录：
 ```
 .
@@ -28,7 +30,7 @@ tag: redis
 ├── ae.h                一种事件驱动编程库
 ├── anet.c
 ├── anet.h              一种网络封装库
-├── aof.c               Append Only File 实现，方法定义在 server.h
+├── aof.c               AOF（Append Only File）持久化实现，方法定义在 server.h
 ├── asciilogo.h         Logo
 ├── atomicvar.h         原子数字增减宏定义，调用 GCC 内置 _atomic 方法实现
 ├── bio.c
@@ -82,7 +84,7 @@ tag: redis
 ├── memtest.c           内存检测实现，定义在 server.c 中
 ├── mkreleasehdr.sh     生成 release.h 的脚本
 ├── module.c            模块框架实现？
-├── modules
+├── modules             模块化示例？
 │   ├── gendoc.rb
 │   ├── helloblock.c
 │   ├── hellocluster.c
@@ -96,70 +98,75 @@ tag: redis
 ├── networking.c        所有网络与客户端相关的操作实现
 ├── notify.c            This file implements keyspace events notification via Pub/Sub and described at https://redis.io/topics/notifications.
 ├── object.c            Redis object implementation
-├── pqsort.c
-├── pqsort.h
-├── pubsub.c
-├── quicklist.c
-├── quicklist.h
-├── rand.c
-├── rand.h
-├── rax.c
-├── rax.h
-├── rax_malloc.h
-├── rdb.c
-├── rdb.h
-├── redisassert.h
-├── redis-benchmark
-├── redis-benchmark.c
-├── redis-check-aof
-├── redis-check-aof.c
-├── redis-check-rdb
-├── redis-check-rdb.c
-├── redis-cli
-├── redis-cli.c
-├── redismodule.h
-├── redis-sentinel
-├── redis-server
-├── redis-trib.rb
+├── pqsort.c            NetBSD libc qsort 的可指定范围的实现
+├── pqsort.h            NetBSD libc qsort 的可指定范围的实现
+├── pubsub.c            订阅发布的底层 API 实现，定义于 server.h
+├── quicklist.c         一种通用双向链表实现
+├── quicklist.h         一种通用双向链表实现
+├── rand.c              随机数
+├── rand.h              随机数
+├── rax.c               基数树实现
+├── rax.h               基数树实现（header 文件有详细介绍）
+├── rax_malloc.h        决定基数树内存分配器的选取
+├── rdb.c               RDB（Redis Database File）持久化实现
+├── rdb.h               RDB（Redis Database File）持久化实现
+├── redis-benchmark.c   性能测试工具，可以独立运行的
+├── redis-check-aof.c   AOF 检查工具，可独立运行
+├── redis-check-rdb.c   RDB 检查工具，可独立运行
+├── redis-cli.c         Redis 命令行工具，可独立运行
+├── redis-trib.rb       WARNING: redis-trib.rb is not longer available
+├── redisassert.h       断言库
+├── redismodule.h       模块化头文件？
 ├── release.c
-├── release.h
-├── replication.c
-├── rio.c
+├── release.h           这个好像是编译时产生的版本信息文件
+├── replication.c       异步复制
+├── rio.c               rio ，是一种简单的面向流的 IO 抽象，提供 read write tell 三种基础方法。
 ├── rio.h
-├── scripting.c
-├── sdsalloc.h
-├── sds.c
+├── scripting.c         Lua 脚本支持，定义于 server.h
+├── sds.c               Simple Dynamic String
 ├── sds.h
-├── sentinel.c
-├── server.c
-├── server.h
-├── setproctitle.c
+├── sdsalloc.h          决定 sds 内存分配器的选取
+├── sentinel.c          Redis 烧饼实现
+├── server.c            （东西太多）
+├── server.h            （东西太多）
+├── setproctitle.c      Linux/Darwin setproctitle
 ├── sha1.c
 ├── sha1.h
-├── siphash.c
-├── slowlog.c
+├── siphash.c           SipHash 一种 Hash 算法，在 HashTable （dict.c）中有用到
+├── slowlog.c           慢日志实现，就是如果你执行时间长了就把你记录起来的机制
 ├── slowlog.h
-├── solarisfixes.h
-├── sort.c
-├── sparkline.c
-├── sparkline.h
-├── stream.h
-├── syncio.c
-├── testhelp.h
-├── t_hash.c
-├── t_list.c
-├── t_set.c
-├── t_stream.c
-├── t_string.c
-├── t_zset.c
+├── solarisfixes.h      Solaris 系统专用
+├── sort.c              SORT 指令的实现，与一些辅助功能，定义在 server.h
+├── sparkline.c         ASCII 折线图？
+├── sparkline.h         ASCII 折线图？
+├── stream.h            流 数据结构定义
+├── syncio.c            很常用的同步 IO 读写实现
+├── t_hash.c            Hash 类型相关操作实现
+├── t_list.c            List 类型数据相关操作实现
+├── t_set.c             Set 类型
+├── t_stream.c          Stream 实现 （stream.h）
+├── t_string.c          各种指令实现
+├── t_zset.c            排序 Set API 实现
+├── testhelp.h          This is a really minimal testing framework for C
 ├── util.c
-├── util.h
+├── util.h              一些有关 sds 的工具类
 ├── valgrind.sup
-├── version.h
-├── ziplist.c
-├── ziplist.h
-├── zipmap.c
+├── version.h           版本号
+├── ziplist.c           一种内存利用率很高的双向链表
+├── ziplist.h           一种内存利用率很高的双向
+├── zipmap.c            String -> String Map data structure optimized for size
 ├── zipmap.h
 ├── zmalloc.c
-└── zmalloc.h
+└── zmalloc.h           total amount of allocated memory aware version of malloc()
 ```
+
+## Server.h
+`Server.h` 是 `Redis Server` 主要流程、功能、数据结构、命令 的定义都在里面。
+
+它都包括啥？
+- 引入必要的头文件
+- 各种静态常量，起到枚举的作用
+- 服务默认配置，部分功能的静态配置
+- 声明一些数据类型
+    - `RedisModule` 模块系统基本数据结构
+    - `redisObject` Redis 存储内容外层封装？
