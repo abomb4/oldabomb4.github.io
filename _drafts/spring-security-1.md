@@ -186,6 +186,41 @@ interface ConfigAttribute {
 一个请求最多有一个 `Servlet` 处理，但 `Filter` 以链的形式出现，他们是有顺序的，
 并且实际上如果某过滤器想要处理请求本身，它可以中断链的其余部分。
 一个过滤器还可以修改下游过滤器与 Servlet 中的请求类和响应类。
+过滤器的顺序很重要， `Spring Boot` 提供两种机制来管理过滤器的顺序：
+- `Filter` 类型的 `@Bean` ，可以拥有一个 `@Order` 注解，或实现 `Ordered` 接口
+- 用 `FilterRegistrationBean` 套起来， `FilterRegistrationBean` 拥有 `getOrder()` 方法
+
+一些现成的过滤器定义了它们自己的顺序常数，以方便表示它们希望彼此之间的相对顺序
+（例如，`Spring Session` 中的 `SessionRepositoryFilter` 定义了 `DEFAULT_ORDER`，值为 `MIN_VALUE + 50`，
+说明这个过滤器希望较早执行，但想先于它执行其他过滤器也是可以的）。
+
+`Spring Security` 作为 `Servlet` 过滤器链中的一个 `Filter` 存在，具体类型为 `FilterChainProxy`。
+在 `Spring Boot` 应用中，安全过滤器是个 `@Bean` 存在于 `ApplicationContext` ，默认会装载，并应用于所有请求。
+默认过滤器安装未知是 `SecurityProperties.DEFAULT_FILTER_ORDER` ，该数值相对
+`OrderedFilter.REQUEST_WRAPPER_FILTER_MAX_ORDER` 来定义
+（`Spring Boot` 应用中，会造成请求对象修改的过滤器的最大顺序）。
+
+从应用容器角度来看，`Spring Security` 只有一个过滤器，但其实它内部还有很多别的过滤器，共同完成安全功能。
+
+![Spring Security is a single physical Filter but delegates processing to a chain of internal filters](/images/spring-security-1-filters-inner.png)
+（图片来自教程）
+
+事实上，安全过滤器中甚至还有一层代理，一个没有标记 Spring `@Bean` 的 `DelegatingFilterProxy` 类，
+用来直接在应用容器中挂载。
+这个代理类代理一个 `FilterChainProxy` 实例，这个实例是标记了 `@Bean` 的，而且经常有个固定的名字
+`springSecurityFilterChain` 。
+这个 `FilterChainProxy` 实例就包含了 spring security 中的安全逻辑。
+
+一个顶级的 `FilterChainProxy` 可能包含多个子链，实现类可能是 `SecurityFilterChain`，
+子链对容器也是不可见的。
+请求过来时，匹配到第一个能够处理该资源的子链，将请求分发到匹配的子链进行处理。
+下图展示分发过程的一个例子（`/foo/**` 比 `/**` 更早被匹配）。
+这种匹配方式很常用，但不是唯一一种。
+分发程序最重要的特点就是一个请求必须只分配给一个链。
+
+![The Spring Security FilterChainProxy dispatches requests to the first chain that matches](/images/spring-security-1-filters-inner-chains.png)
+（图片来自教程）
+
 
 
 
