@@ -176,6 +176,18 @@ interface ConfigAttribute {
 要扩展可处理的表达式范围，需要自定义实现 `SecurityExpressionRoot`，有时还需要 `SecurityExpressionHandler`。
 
 ## Web 安全
+`Spring Security` 在 Web 层的实现基于 Servlet `Filter` ，所以先看一下 `Filters` 的作用对我们理解有帮助。
+下图展示一个 HTTP 请求的各处理器的典型分层机构。
+
+![Filters](/images/spring-security-1-filters.png)
+（图片来自教程）
+
+客户端向应用发送请求，应用容器根据请求的 `URI` 决定哪些 `Filter` 和 `Servlet` 来处理该请求。
+一个请求最多有一个 `Servlet` 处理，但 `Filter` 以链的形式出现，他们是有顺序的，
+并且实际上如果某过滤器想要处理请求本身，它可以中断链的其余部分。
+一个过滤器还可以修改下游过滤器与 Servlet 中的请求类和响应类。
+
+
 
 ### 创建与自定义过滤链
 
