@@ -34,8 +34,8 @@ tag: redis
 # Spring Security 架构
 
 在进行之前，先明确几个名词：
-- Principal 主体：表示一个抽象主体，例如个人、组织、登录 ID
-- credentials 凭证：用于验证所表示的主体是正确的，一般是一个密码，但可以是任何东西
+- Principal 主体：表示一个抽象主体，例如个人、组织、登录 ID、用户对象等
+- Credentials 凭证：用于验证所表示的主体是正确的，一般是一个密码，但可以是任何东西
 
 ## 认证与授权
 应用安全归根结底是不多不少两个问题：`认证`（你谁啊）和 `授权` （允许你干啥）。
@@ -221,17 +221,163 @@ interface ConfigAttribute {
 ![The Spring Security FilterChainProxy dispatches requests to the first chain that matches](/images/spring-security-1-filters-inner-chains.png)
 （图片来自教程）
 
+没有进行安全配置的 `Spring Boot` 应用，默认会有 n 个过滤链，一般 n = 6 。
+第一个（n - 1）链用于跳过静态资源，如 `/css/**`, `/images/**`，还错误页面 `/error`
+（可以通过 `SecurityProperties` 中的 `security.ignored` 配置来排除更多 url）。
+最后的链处理所有 URL `/**` ，并且功能很丰富，包括认证、授权、一场处理、会话处理、HTTP 头处理等。
+这个链中默认有 11 个过滤器，一般情况下用户无需关心它们谁生效、何时生效等。
 
-
+> 注意
+> > Spring安全内部的所有过滤器都在应用容器（如 Tomcat）中都是不可见的，这一点很重要。
+> > 尤其是在 `Spring Boot` 应用程序中，默认情况下，所有类型为 `Filter` 的 `@Bean`s 都会自动注册到容器中。
+> > 因此，如果要向安全链添加自定义筛选器，则不能将其设置为 `@Bean` ，
+> > 或使用 `FilterRegistrationBean` 进行包装而显式地禁用容器注册。
 
 ### 创建与自定义过滤链
+`Spring Boot` 程序中的默认链（匹配 `/**` 的链）拥有一个默认顺序 `SecurityProperties.BASIC_AUTH_ORDER`。
+用户可以通过设置 `security.basic.enabled = false` 将默认链完全关闭，
+或者将其用作 fallback 并使用较低的顺序定义其他规则。
+实现自定义顺序只需要在 `WebSecurityConfigurerAdapter`（或 `WebSecurityConfigurer` ）上标记一个 `@Bean`，
+并使用 `@Order` 标记该类。
+示例：
+```java
+@Configuration
+@Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
+public class ApplicationConfigurerAdapter extends WebSecurityConfigurerAdapter {
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.antMatcher("/foo/**")
+     ...;
+  }
+}
+```
+这个 Bean 会使 `Sprnig Security` 添加一个新的过滤链，并且顺序在 fallback 链之前。
 
-### 调度和授权中的请求匹配
+很多应用中都包含很多不同的访问规则。
+例如，一个提供了 Web UI 界面和后段 API 的程序，可能在 UI 方面使用基于 `Cookie` 的登录页面认证方式，
+而在 `API`方面使用基于 `Token` 的认证手段，未认证则返回 401 。
+每个资源的过滤链都可以通过一个不同顺序的独立的 `WebSecurityConfigurerAdapter` 来配置。
+若多个过滤链都匹配到一个请求，顺序靠前的会被执行。
+
+### 请求匹配
+一个安全过滤链（等同于一个 `WebSecurityConfigurerAdapter`）拥有一个请求匹配器，
+决定何种 HTTP 请求需要处理。一个请求会被一条安全过滤器链独占处理，不会有其他的安全过滤链再处理。
+不过在过滤器链中，您可以通过在 `HttpSecurity` 配置器中设置其他匹配器来对权限进行更精细的控制。
+例如：
+```java
+@Configuration
+@Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
+public class ApplicationConfigurerAdapter extends WebSecurityConfigurerAdapter {
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.antMatcher("/foo/**")
+      .authorizeRequests()
+        .antMatchers("/foo/bar").hasRole("BAR")
+        .antMatchers("/foo/spam").hasRole("SPAM")
+        .anyRequest().isAuthenticated();
+  }
+}
+```
+配置 `Spring Security` 最容易犯的错误之一就是忘记这些匹配器适用于不同的进程，
+第一个是整个过滤器链的请求匹配器，其他的仅仅选择需要的访问规则。
 
 ### 将应用程序安全规则与 Actuator 规则结合
+如果使用了 `Spring Boot Actuator` 进行端点管理（？），你一定希望它是安全的，默认情况下本来就会安全。
+实际上，如果在一个配置了 `Spring Security` 的应用中引入了 `Actuator` ，
+就会自动配置一条 `Actuator` 专用的过滤链。
+详情可以看下 `ManagementWebSecurityConfigurerAdapter` 类（`Spring Boot` `2.1.3.RELEASE`）。
+
+> Web 层中的 `Spring Security` 目前与 `Servlet API` 相关联，因此它仅在 `Servlet` 容器中适用。
+> 但是，它不依赖于 `Spring MVC` 或 `Spring Web` 技术栈的其余部分，
+> 因此可以在任何 `Servlet` 应用程序中使用，例如使用 `JAX-RS` 的应用程序。
+
 
 ## 方法安全性
+除了支持保护 Web 应用程序外， `Spring Security` 还支持 Java 方法执行的访问控制。
+在 `Spring Security` 中，这仅仅是一种不同的 “需要保护的资源”。
+对用户来说就是用相同的格式定义 `ConfigAttribute` 字符串，只是定义的地方不同而已。
+想要用这个功能，首先得开启：
+```java
+SpringBootApplication
+@EnableGlobalMethodSecurity(securedEnabled = true)
+public class SampleSecureApplication {
+}
+```
+
+然后直接往方法上写注解：
+```java
+@Service
+public class MyService {
+
+  @Secured("ROLE_USER")
+  public String secure() {
+    return "Hello Security";
+  }
+}
+```
+
+这就是一个安全方法示例。若 `Spring` 创建了这个类的 `@Bean` ，则调用方调用的是一个代理，
+被 `Spring Security` 代理。若没权限则抛出 `AccessDeniedException` 。
+
+还有其他注解可用于强制执行安全约束的方法，尤其是 `@PreAuthorize` 和 `@PostAuthorize` ，
+它们允许您编写包含对方法参数和返回值的引用的表达式
+
+> 将 Web 安全性和方法安全性结合起来并不罕见。
+> 过滤器链提供用户体验功能，如身份验证和重定向到登录页面等；方法安全性可在更细粒度的级别提供保护。
+
 
 ## 线程
+`Spring Security` 基本上是线程绑定的，因为它需要使当前的认证信息可供各种下游代码使用。
+基本依赖是 `SecurityContext`，它可能包含身份验证（当用户登录时，一个 `Authentication` 一定是 `authenticated`）。
+您始终可以通过 `SecurityContextHolder` 中的静态方法访问和操作 `SecurityContext`，
+而 `SecurityContextHolder` 又可以简单地操作 `TheadLocal`，例如：
+
+```java
+SecurityContext context = SecurityContextHolder.getContext();
+Authentication authentication = context.getAuthentication();
+assert(authentication.isAuthenticated);
+```
+
+这种玩法不常见，但可能对你有用，例如需要写一个定义认证过滤器时。
+
+若能需要在 Web 环境访问一个已登录的用户信息，可以在 `@RequestMapping` 中使用一个参数来接收。
+例如：
+```java
+@RequestMapping("/foo")
+public String foo(@AuthenticationPrincipal User user) {
+  ... // do stuff with user
+}
+```
+这个注解从 `SecurityContext` 中提取 `Authentication` ，并将 `getPrincipal()` 的结果注入到参数中。
+其类型与 `AuthenticationManager` 的认证有关，需要用户自行保证。
+
+若使用了 `Spring Security` ，来自 `HttpServletRequest` 的 `Principal` 接口的类型就是 `Authentication`，
+可以这样直接利用：
+```java
+@RequestMapping("/foo")
+public String foo(Principal principal) {
+  Authentication authentication = (Authentication) principal;
+  User = (User) authentication.getPrincipal();
+  ... // do stuff with user
+}
+```
+如果您需要编写在不使用 `Spring Security` 时也可以使用的代码
+（在加载 `Authentication` 类时需要更加具有防御性），
+这种写法可能很有用。
 
 ### 异步执行安全方法
+`SecurityContext` 是与线程绑定的，若需要异步调用安全方法，则必须确保这个 `Context` 传到了另一个线程。
+也就是可以把 `SecurityContext` 套到异步任务中（如 `Runnable`， `Callable`），
+`Spring` 提供了提供了一些 helper，如封装好的 `Runnable` 和 `Callable`。
+要将 `SecurityContext` 传到 `@Async` 方法，您需要提供 `AsyncConfigurer` 并确保 `Executor` 的类型正确：
+```java
+@Configuration
+public class ApplicationConfiguration extends AsyncConfigurerSupport {
+
+  @Override
+  public Executor getAsyncExecutor() {
+    // 不建议在实际场景直接使用 Executors
+    return new DelegatingSecurityContextExecutorService(Executors.newFixedThreadPool(5));
+  }
+}
+```
