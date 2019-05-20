@@ -381,3 +381,17 @@ public class ApplicationConfiguration extends AsyncConfigurerSupport {
   }
 }
 ```
+# 总结
+在 Web 安全中，`WebSecurityConfigurerAdapter` 类是我们用到的最核心的类，可以通过重写两个 `configurate` 方法配置认证方法与授权方法。
+`configure(AuthenticationManagerBuilder builder)` 配置认证方法；
+`configure(HttpSecurity http)` 配置授权方法以及各种其他配置。
+
+每个 `WebSecurityConfigurerAdapter` 的配置都对应一条安全过滤链，
+我们可以使用多个 `WebSecurityConfigurerAdapter` 来配置针对不同的资源的不同安全策略。
+
+一般情况下，认证成功后，会提供一些权限凭证（`Authority`），而如何利用这些凭证，是授权阶段需要做的事情。
+
+--------------------------------
+
+即时看完该教程，对 `Spring Security` 也不能说是了解了，必须在实际应用，或 Demo 中进行使用，才可能更加了解。
+比如对接自定义的权限系统、对接自定义认证系统等、实现短信验证码或 email 登录等。
