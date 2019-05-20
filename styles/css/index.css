@@ -6421,7 +6421,7 @@ hr {
 .docs-section td {
   padding: 0 10px 5px 0;
 }
-.docs-content {
+.docs-content, .panel-footer {
   position: relative;
   overflow: hidden;
   background: #fff;
@@ -6434,7 +6434,7 @@ hr {
 .docs-content .container-fluid {
   padding: 0;
 }
-.docs-content {
+.docs-content, .panel-footer {
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -7135,6 +7135,14 @@ td.visible-print {
 }
 
 :target{
-    padding-top: 70px;
-    margin-top: -70px;
+  padding-top: 70px;
+  margin-top: -70px;
+}
+
+.panel-footer {
+  padding: 24px 0 14px 0;
+  margin: 0 -15px;
+}
+.post-footer {
+  text-align: center;
 }

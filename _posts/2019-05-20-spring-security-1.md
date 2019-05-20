@@ -3,7 +3,7 @@ layout: post
 title:  "初识 Spring Security"
 categories: Spring
 date: +0800 2019-05-16 13:25:33
-tag: spring-security spring translations
+tags: [spring-security, spring, translations]
 ---
 
 * content
