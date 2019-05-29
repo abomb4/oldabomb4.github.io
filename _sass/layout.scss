@@ -1,0 +1,195 @@
+//
+// Controlls the main layout
+//
+
+html {
+  font-size: 14px;
+}
+a {
+  color: $fg;
+}
+
+.wrapper {
+  padding: $padding-normal;
+}
+.wrapper-v {
+  padding: 0 $padding-normal;
+}
+.wrapper-h {
+  padding: $padding-normal 0;
+}
+.wrapper-big {
+  padding: $padding-big;
+}
+.wrapper-big-v {
+  padding: 0 $padding-big;
+}
+.wrapper-big-h {
+  padding: $padding-big 0;
+}
+.container-chind {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+#blog-header {
+  background-color: $bg-back;
+
+  .navbar-nav .nav-link {
+    padding: $padding-normal $padding-big;
+    border-bottom: 1px solid transparent;
+
+    color: lighten( $fg, 30% );
+    &:hover {
+      color: $fg;
+      @include hover-shadow;
+    }
+  }
+
+  .navbar-nav .active .nav-link {
+    color: $fg;
+  }
+}
+
+#blog-main {
+
+  // Home page banner
+  .blog-main-banner {
+    // background-color: $bg;
+    // color: $fg-reserve;
+    // text-align: center;
+    transition: height 0.6s cubic-bezier(0.2, 0.5, 0.1, 1);
+    overflow: hidden;
+    height: 160px;
+    // display: none;
+    // border-bottom: 1px solid mix(#888888, $bg-back, 10);
+
+    & > .container {
+      padding: $padding-big;
+      position: relative;
+    }
+    h1 {
+      line-height: 4rem;
+      font-size: 2rem;
+    }
+    p {
+      line-height: 1.8rem;
+      font-size: 1rem;
+    }
+    button.hide {
+      border: none;
+      background: none;
+      position: absolute;
+      color: mix($fg, $bg-back, 50);
+      right: $padding-big;
+      bottom: $padding-big;
+    }
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    .blog-main-banner {
+      height: 200px;
+
+      h1 {
+        line-height: 6rem;
+        font-size: 3rem;
+      }
+      p {
+        line-height: 2.2rem;
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-md) {
+    .blog-main-banner {
+      height: 250px;
+
+      h1 {
+        line-height: 8rem;
+        font-size: 4rem;
+      }
+      p {
+        line-height: 2.4rem;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .blog-article-list-container,
+  .blog-sidebar,
+  .blog-article-container {
+    padding: $padding-big;
+  }
+}
+.article-list {
+  // padding: $padding-big;
+  // background: $bg;
+
+  .article {
+    margin-bottom: $padding-big * 2;
+    .title {
+      font-size: 1.8rem;
+      a {
+        color: $fg;
+        &:hover {
+          text-decoration: none;
+          @include hover-shadow;
+        }
+      }
+    }
+    .introduction {
+      color: $color-gray;
+      line-height: 2rem;
+    }
+    .short-content {
+      line-height: 1.2rem;
+    }
+    .tag {
+      display: inline-block;
+      margin-right: $padding-small;
+      color: $color-gray;
+    }
+  }
+}
+
+.side-container {
+  // padding: $padding-big;
+  .side-element {
+    // background: $bg;
+    margin-bottom: $padding-normal;
+    .title {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.blog-article-container .article {
+
+  .title, .introduction {
+    text-align: center;
+  }
+  .title {
+    font-size: 2rem;
+    line-height: 4rem;
+  }
+  .introduction {
+    margin-bottom: $padding-big;
+  }
+}
+
+#blog-footer {
+  // background-color: $color-dark;
+  // text-align: center;
+  padding: 24px 0 36px 0;
+  // color: $fg-reserve;
+}
+
+//
+// Bootstrap theme overrides
+//
+#blog-header {
+  .navbar-brand-text {
+    vertical-align: middle;
+  }
+}
