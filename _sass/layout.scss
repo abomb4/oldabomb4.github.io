@@ -8,6 +8,9 @@ html {
 a {
   color: $fg;
 }
+img {
+  max-width: 100%;
+}
 
 .wrapper {
   padding: $padding-normal;
