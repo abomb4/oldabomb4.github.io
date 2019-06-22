@@ -53,7 +53,24 @@ img {
     color: $fg;
   }
 }
-
+#navigation h1 {
+  font-size: 24px;
+}
+#markdown-toc {
+  padding-left: 4px;
+}
+#markdown-toc > li {
+  /*display: none;*/
+  margin-bottom: 8px;
+}
+#markdown-toc > li li > a {
+  padding: 3px 0px 3px 12px;
+  font-size: 90%;
+}
+#markdown-toc > li li li > a {
+  padding: 3px 0px 3px 20px;
+  font-size: 80%;
+}
 #blog-main {
 
   // Home page banner
@@ -124,6 +141,18 @@ img {
   .blog-article-container {
     padding: $padding-big;
   }
+}
+.side-element .article-list li {
+  margin-bottom: 4px;
+}
+.side-element .article-list li > * {
+  display: block;
+}
+.side-element .article-list li > .date {
+  font-size: 90%;
+}
+.side-element .article-list li > .title {
+  font-size: inherit;
 }
 .article-list {
   // padding: $padding-big;
