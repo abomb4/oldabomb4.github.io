@@ -4,6 +4,8 @@ title:  "初识 Spring Security"
 categories: Spring
 date: +0800 2019-05-16 13:25:33
 tags: [spring-security, spring, translations]
+summary: "<p>本文根据 Spring 官网提供的入门教程，提供一个 Spring Security 的入门讲解；</p>
+          <p>整篇文章大部分由该教程的直接翻译组成，在某些章节中加入了自己的一些理解...</p>"
 ---
 
 * content
@@ -18,7 +20,7 @@ tags: [spring-security, spring, translations]
 `Spring` 的这个教程面向 `Spring Security` 初学者，介绍了 `Spring Security` 的框架设计。
 想要了解高层的应用安全机制原理、安全框架定制方法，或者仅仅想要学习如何做应用安全方面工作的，
 都可以阅读这篇教程。
-
+<!--more-->
 # Spring Security 简介
 `Spring Security` 是一款非常复杂，同时又非常强大的 `认证` 与 `权限控制` 框架。
 

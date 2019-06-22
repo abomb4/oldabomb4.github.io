@@ -1,0 +1,13 @@
+<div class="side-element">
+  <p class="title">最近发布</p>
+  <div class="article-list content">
+    <ul class="nav sidenav">
+      {% for node in site.posts %}
+      <li>
+        <a href="{{ node.url | prepend: site.baseurl }}" class="title">{{ node.title }}</a>
+        <span class="date">{{ node.date | date: "%F" }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
